@@ -1,0 +1,1289 @@
+import React, { useState } from 'react';
+
+// Données structurées de l'organisation
+const poleData = {
+  mission: "Favoriser l'autonomie, l'engagement et la mobilité des jeunes en structurant des parcours d'accompagnement intégrant les dimensions de citoyenneté, de transition écologique, d'ouverture européenne et d'innovation pédagogique.",
+  personnel: [
+    {
+      id: 'amandine',
+      name: 'Amandine',
+      role: 'Responsable de secteur',
+      team: 'Pilotage & Coordination',
+      cej: false, // Étiquette CEJ retirée
+      details: {
+        etp: '100%',
+        projets: 'Tous projets (pilotage transversal)',
+        missionsPrincipales: [
+          'Pilotage stratégique, institutionnel et budgétaire',
+          'Management de l\'équipe de coordination',
+          'Représentation dans les instances stratégiques',
+        ],
+        missionsSecondaires: [
+          'Négociation des partenariats structurants',
+          'Reporting auprès des financeurs',
+          'Animation des réunions de pôle mensuelles',
+        ],
+        activitesConcretes: [
+          'Définition des orientations annuelles',
+          'Pilotage des budgets projets',
+          'Entretiens annuels équipe',
+          'Comités de pilotage partenaires',
+        ],
+        outils: [
+          'Tableaux de bord budgétaires',
+          'Référentiels qualité Mission Locale',
+          'Outils de management d\'équipe',
+        ],
+        modalites: [
+          'Management direct équipe coordination',
+          'Représentation institutionnelle',
+          'Pilotage à distance projets territoriaux',
+        ],
+        partenaires: [
+          'Direction Mission Locale',
+          'Financeurs (Région, Europe, État)',
+          'Partenaires institutionnels',
+        ],
+        objectifs: [
+          'Consolider le financement des 5 projets structurants',
+          'Développer 2 nouveaux partenariats européens',
+          'Augmenter de 20% l\'impact jeunes accompagnés',
+        ],
+      },
+    },
+    {
+      id: 'mathieu',
+      name: 'Mathieu',
+      role: 'Coordinateur Innovation, Outillage & Professionnalisation',
+      team: 'Pilotage & Coordination',
+      cej: false, // Étiquette CEJ retirée
+      details: {
+        etp: '100%',
+        projets: 'ROAMING (chef de file), TAKE OFF PRO (coordinateur), LS4YOU (appui technique)',
+        missionsPrincipales: [
+          'Coordination déploiement projets innovants',
+          'Outillage et professionnalisation des équipes',
+          'Pilotage expérimentations pédagogiques',
+        ],
+        missionsSecondaires: [
+          'Animation communauté relais ambassadeurs',
+          'Veille innovations pédagogiques',
+          'Co-encadrement volontaires SC',
+        ],
+        activitesConcretes: [
+          'ROAMING : Pilotage tests outils VR, coordination plateforme nationale',
+          'TAKE OFF PRO : Animation consortium, suivi 60 parcours/an',
+          'LS4YOU : Expertise ingénierie plateforme numérique',
+          'Transversal : Conception Book Mobilité, capsules vidéo, webinaires',
+        ],
+        outils: [
+          'Plateforme collaborative Teams/SharePoint',
+          'Outils de conception pédagogique',
+          'Référentiels européens (Youthpass, Europass)',
+        ],
+        modalites: [
+          'Animation à distance et présentiel',
+          'Ingénierie pédagogique collaborative',
+          'Accompagnement changement',
+        ],
+        partenaires: [
+          'Consortium européen ROAMING',
+          'Réseau Mission Locales 64',
+          'Partenaires technologiques',
+        ],
+        objectifs: [
+          'Finaliser plateforme ROAMING et former 50 conseillers',
+          'Coordonner 60 mobilités TAKE OFF PRO',
+          'Produire 12 webinaires formation interne',
+        ],
+      },
+    },
+    {
+      id: 'alain',
+      name: 'Alain',
+      role: 'Référent Engagement Citoyen',
+      team: 'Pilotage & Coordination', // Déplacé dans Pilotage & Coordination
+      cej: false, // Étiquette CEJ retirée
+      tier: undefined, // Tier retiré
+      focus: 'Référent Engagement Citoyen, ROAMING, LS4YOU, Je me déplace', // Focus mis à jour
+      details: {
+        etp: '100%',
+        projets: 'LS4YOU (chef de file), TAKE OFF PRO (animation), Service Civique (coordination)',
+        missionsPrincipales: [
+          'Développement engagement et participation citoyenne',
+          'Coordination actions transition écologique',
+          'Animation Service Civique',
+        ],
+        missionsSecondaires: [
+          'Accompagnement projets collectifs jeunes',
+          'Lutte contre les discriminations',
+          'Formation citoyenne',
+        ],
+        activitesConcretes: [
+          'LS4YOU : Pilotage boîte à outils compétences de vie, formation formateurs',
+          'TAKE OFF PRO : Animation information collective, accompagnement départs',
+          'Service Civique : Sourcing missions, formations civiques',
+          'Engagement : Cartographie associations, montage projets collectifs',
+        ],
+        outils: [
+          'Boîte à outils LS4YOU',
+          'Référentiel Service Civique',
+          'Méthodologies projets collectifs',
+        ],
+        modalites: [
+          'Animation ateliers collectifs',
+          'Accompagnement individuel projets',
+          'Formation et sensibilisation',
+        ],
+        partenaires: [
+          'Associations locales',
+          'Acteurs transition écologique',
+          'Structures Service Civique',
+        ],
+        objectifs: [
+          'Déployer LS4YOU sur 3 territoires',
+          'Accompagner 40 jeunes en Service Civique',
+          'Créer 5 projets collectifs jeunes',
+        ],
+      },
+    },
+    {
+      id: 'mam',
+      name: 'MAM',
+      role: 'Référente Labellisation & Accompagnement Terrain',
+      team: 'Pilotage & Coordination', // Déplacée dans Pilotage & Coordination
+      cej: false, // Étiquette CEJ retirée
+      tier: undefined, // Tier retiré
+      focus: undefined, // Focus retiré
+      details: {
+        etp: '100%',
+        projets: 'Tous projets (appui transversal)',
+        missionsPrincipales: [
+          'Articulation actions pôle / accompagnement droit commun',
+          'Qualité et labellisation des pratiques',
+          'Soutien terrain aux référents',
+        ],
+        missionsSecondaires: [
+          'Création référentiel de compétences',
+          'Formation équipes terrain',
+          'Remontée besoins conseillers',
+        ],
+        activitesConcretes: [
+          'Intégration outils pôle dans parcours CEJ/PACEA',
+          'Co-création référentiel de compétences',
+          'Animation webinaires formation',
+          'Accompagnement prescription conseillers',
+        ],
+        outils: [
+          'Référentiel de compétences MCCTI',
+          'Outils prescription conseillers',
+          'Grilles qualité actions',
+        ],
+        modalites: [
+          'Appui conseil aux équipes',
+          'Animation formations',
+          'Suivi qualité à distance',
+        ],
+        partenaires: [
+          'Conseillers Mission Locale',
+          'Équipes accompagnement',
+          'Responsables antennes',
+        ],
+        objectifs: [
+          'Finaliser référentiel de compétences',
+          'Former 80% des conseillers aux outils pôle',
+          'Atteindre 85% satisfaction qualité',
+        ],
+      },
+    },
+    {
+      id: 'goizeder',
+      name: 'Goizeder',
+      role: 'Conseillère Mobilités 360°',
+      team: 'Spécialistes Mobilité',
+      cej: false, // Étiquette CEJ retirée
+      details: {
+        etp: '60%',
+        projets: 'TAKE OFF PRO (accompagnement), mobilité internationale (conseil)',
+        missionsPrincipales: [
+          'Ingénierie parcours mobilité',
+          'Accompagnement mobilité internationale',
+          'Conseil situations complexes',
+        ],
+        missionsSecondaires: [
+          'Contribution outils mobilité',
+          'Formation équipes',
+          'Expertise parcours progressifs',
+        ],
+        activitesConcretes: [
+          'TAKE OFF PRO : Entretiens individuels, préparation départs',
+          'Mobilité : Construction parcours, suivi retours',
+          'Outils : Mise à jour Book Mobilité, parcours types',
+        ],
+        outils: [
+          'Book Mobilité',
+          'Outils diagnostic mobilité',
+          'Référentiels mobilité européenne',
+        ],
+        modalites: [
+          'Accompagnement individuel',
+          'Conseil équipes',
+          'Animation collective',
+        ],
+        partenaires: [
+          'Organismes mobilité internationale',
+          'Conseillers Mission Locale',
+          'Structures d\'accueil européennes',
+        ],
+        objectifs: [
+          'Accompagner 40 mobilités internationales',
+          'Former 25 conseillers mobilité',
+          'Créer 10 parcours types',
+        ],
+      },
+    },
+    {
+      id: 'jeanPierreTordo',
+      name: 'Jean-Pierre Tordo',
+      role: 'Référent Mobilités Solidaires & Inclusives',
+      team: 'Référents', // Déplacé dans Référents
+      cej: false, // Étiquette CEJ retirée
+      tier: 'BAB Nord/Sud', // Ajouté à l'échelon BAB Nord/Sud
+      focus: 'Mobilité Territoire & Partenariat Mobilité Inclusive et Solidaire, Roole', // Nouveau focus
+      details: {
+        etp: '25%',
+        projets: 'Mobilité territoriale (expertise), ateliers mobilité (animation)',
+        missionsPrincipales: [
+          'Facilitation accès mobilité jeunes en difficulté',
+          'Expertise technique mobilité',
+          'Partenariats solidaires',
+        ],
+        missionsSecondaires: [
+          'Formation code/permis',
+          'Solutions individuelles',
+          'Accompagnement handicap',
+        ],
+        activitesConcretes: [
+          'Mobilité territoriale : Expertise permis, entretien véhicules',
+          'Ateliers : Co-animation aspects techniques',
+          'Solidaire : Garage solidaire, micro-crédit',
+        ],
+        outils: [
+          'Outils diagnostic mobilité',
+          'Partenariats auto-écoles',
+          'Dispositifs aide mobilité',
+        ],
+        modalites: [
+          'Expertise conseil ponctuelle',
+          'Animation ateliers techniques',
+          'Accompagnement individuel spécialisé',
+        ],
+        partenaires: [
+          'Auto-écoles sociales',
+          'Garages solidaires',
+          'Structures handicap',
+        ],
+        objectifs: [
+          'Accompagner 30 jeunes solutions mobilité',
+          'Animer 12 ateliers techniques',
+          'Développer 2 partenariats solidaires',
+        ],
+      },
+    },
+    {
+      id: 'sc1',
+      name: 'SC1',
+      role: 'Appui Autonomie & Engagement',
+      team: 'Volontaires Service Civique',
+      cej: false, // Étiquette CEJ retirée
+      details: {
+        mission: 'Faciliter déploiement actions mobilité et citoyenneté',
+        activites: [
+          'Préparation sessions, gestion inscriptions',
+          'Co-animation brise-glaces',
+          'Appui logistique ateliers',
+          'Suivi présences',
+        ],
+        relaisSoutenus: 'Cathy, Julie, Pauline, Alain',
+        objectifs: 'Soutenir 50 ateliers, 200 jeunes',
+      },
+    },
+    {
+      id: 'sc2',
+      name: 'SC2',
+      role: 'Communication & Médias',
+      team: 'Volontaires Service Civique',
+      cej: false, // Étiquette CEJ retirée
+      details: {
+        mission: 'Valoriser actions jeunes, créer contenus engageants',
+        activites: [
+          'Création visuels réseaux sociaux',
+          'Interviews vidéo jeunes',
+          'Tournage/montage capsules',
+          'Couverture événements',
+        ],
+        relaisSoutenus: 'Lucile, Mathieu',
+        objectifs: '100 contenus créés, 50 témoignages',
+      },
+    },
+    {
+      id: 'sc3',
+      name: 'SC3',
+      role: 'Innovation & Digitalisation',
+      team: 'Volontaires Service Civique',
+      cej: false, // Étiquette CEJ retirée
+      details: {
+        mission: 'Appuyer transition numérique pôle',
+        activites: [
+          'Tests plateforme ROAMING',
+          'Guides tutoriels conseillers',
+          'Enrichissement SharePoint',
+          'Mise en forme modules e-learning',
+        ],
+        relaisSoutenus: 'Mathieu, Maïwenn, Mélissa',
+        objectifs: '20 tutoriels, 100% outils testés',
+      },
+    },
+    {
+      id: 'sc4',
+      name: 'SC4',
+      role: 'Coopération Transfrontalière',
+      team: 'Volontaires Service Civique',
+      cej: false, // Étiquette CEJ retirée
+      details: {
+        mission: 'Soutien opérationnel projets transfrontaliers',
+        activites: [
+          'Logistique visites chantier',
+          'Appui traductions simples',
+          'Préparation temps collectifs',
+          'Cartographies acteurs',
+        ],
+        relaisSoutenus: 'Zigor',
+        objectifs: 'Soutenir les projets transfrontaliers',
+      },
+    },
+    // Référents avec tiers et focus
+    {
+      id: 'cathy',
+      name: 'Cathy',
+      role: 'Référente Sud Pays Basque',
+      team: 'Référents',
+      cej: false, // Étiquette CEJ retirée
+      tier: 'SUD PB', // Mis à jour
+      focus: 'Mobilité Territoire & Transfrontalier, Je me déplace', // Focus mis à jour
+      details: {
+        etp: '10%',
+        projets: 'Mobilité territoriale (animation), TAKE OFF PRO (relais), BASERRIBERRI (appui)',
+        missionsPrincipales: [
+          'Animation territoire Sud Pays Basque',
+          'Ateliers mobilité locale',
+          'Relais information projets',
+        ],
+        missionsSecondaires: [
+          'Partenariats locaux mobilité',
+          'Accompagnement projets jeunes',
+          'Diffusion outils pôle',
+        ],
+        activitesConcretes: [
+          'Mobilité territoriale : 4-6 ateliers "Je me déplace"/an',
+          'TAKE OFF PRO : Information, orientation jeunes',
+          'BASERRIBERRI : Appui logistique, communication locale',
+        ],
+        outils: [
+          'Kits animation ateliers',
+          'Outils diagnostic mobilité',
+          'Supports information projets',
+        ],
+        modalites: [
+          'Animation collective territoriale',
+          'Accompagnement individuel ponctuel',
+          'Relais information',
+        ],
+        partenaires: [
+          'Partenaires mobilité Sud PB',
+          'Associations locales',
+          'Structures jeunesse territoire',
+        ],
+        objectifs: [
+          'Animer 24 ateliers mobilité',
+          'Orienter 15 jeunes vers projets pôle',
+          'Maintenir 5 partenariats locaux',
+        ],
+      },
+    },
+    {
+      id: 'julie',
+      name: 'Julie',
+      role: 'Référente Sud Pays Basque',
+      team: 'Référents',
+      cej: false, // Étiquette CEJ retirée
+      tier: 'SUD PB', // Mis à jour
+      focus: 'Mobilité Territoriale, Internationale & Citoyenneté, Je me déplace, Take Off Pro', // Focus mis à jour
+      details: {
+        etp: '10%',
+        projets: 'Mobilité territoriale (animation), TAKE OFF PRO (relais), BASERRIBERRI (appui)',
+        missionsPrincipales: [
+          'Animation territoire Sud Pays Basque',
+          'Ateliers mobilité locale',
+          'Relais information projets',
+        ],
+        missionsSecondaires: [
+          'Partenariats locaux mobilité',
+          'Accompagnement projets jeunes',
+          'Diffusion outils pôle',
+        ],
+        activitesConcretes: [
+          'Mobilité territoriale : 4-6 ateliers "Je me déplace"/an',
+          'TAKE OFF PRO : Information, orientation jeunes',
+          'BASERRIBERRI : Appui logistique, communication locale',
+        ],
+        outils: [
+          'Kits animation ateliers',
+          'Outils diagnostic mobilité',
+          'Supports information projets',
+        ],
+        modalites: [
+          'Animation collective territoriale',
+          'Accompagnement individuel ponctuel',
+          'Relais information',
+        ],
+        partenaires: [
+          'Partenaires mobilité Sud PB',
+          'Associations locales',
+          'Structures jeunesse territoire',
+        ],
+        objectifs: [
+          'Animer 24 ateliers mobilité',
+          'Orienter 15 jeunes vers projets pôle',
+          'Maintenir 5 partenariats locaux',
+        ],
+      },
+    },
+    {
+      id: 'bea',
+      name: 'Béa',
+      role: 'Référente Transfrontalière',
+      team: 'Référents',
+      cej: false, // Étiquette CEJ retirée
+      tier: 'SUD PB', // Mis à jour
+      focus: 'Transfrontalier & International, Lanean, Take Off Pro', // Focus mis à jour
+      details: {
+        etp: '10%',
+        projets: 'LANEAN (spécialisations), TAKE OFF PRO (accompagnement)',
+        missionsPrincipales: [
+          'Accompagnement transfrontalier spécialisé',
+          'Expertise emploi/formation Espagne',
+          'Mobilité internationale',
+        ],
+        missionsSecondaires: [
+          'Développement réseau employeurs',
+          'Accompagnement VAE',
+          'Préparation interculturelle',
+        ],
+        activitesConcretes: [
+          'LANEAN : Béa (emploi) - matching, réseau employeurs / Isa (formation) - VAE, système formation',
+          'TAKE OFF PRO : Entretiens, préparation départs',
+          'Transfrontalier : Ateliers marché travail/formation espagnol',
+        ],
+        outils: [
+          'Outils matching LANEAN',
+          'Supports formation espagnole',
+          'Référentiels mobilité européenne',
+        ],
+        modalites: [
+          'Accompagnement individuel spécialisé',
+          'Animation ateliers thématiques',
+          'Expertise conseil',
+        ],
+        partenaires: [
+          'Employeurs Gipuzkoa',
+          'Organismes formation espagnols',
+          'Structures VAE',
+        ],
+        objectifs: [
+          'Accompagner 25 parcours transfrontaliers',
+          'Développer 10 partenaires employeurs',
+          'Animer 12 ateliers spécialisés',
+        ],
+      },
+    },
+    {
+      id: 'isa',
+      name: 'Isa',
+      role: 'Référente Transfrontalière',
+      team: 'Référents',
+      cej: false, // Étiquette CEJ retirée
+      tier: 'SUD PB', // Mis à jour
+      focus: 'Territorial, Internationale, Transfrontalier, Lanean, Take Off Pro', // Focus mis à jour
+      details: {
+        etp: '10%',
+        projets: 'LANEAN (spécialisations), TAKE OFF PRO (accompagnement)',
+        missionsPrincipales: [
+          'Accompagnement transfrontalier spécialisé',
+          'Expertise emploi/formation Espagne',
+          'Mobilité internationale',
+        ],
+        missionsSecondaires: [
+          'Développement réseau employeurs',
+          'Accompagnement VAE',
+          'Préparation interculturelle',
+        ],
+        activitesConcretes: [
+          'LANEAN : Béa (emploi) - matching, réseau employeurs / Isa (formation) - VAE, système formation',
+          'TAKE OFF PRO : Entretiens, préparation départs',
+          'Transfrontalier : Ateliers marché travail/formation espagnol',
+        ],
+        outils: [
+          'Outils matching LANEAN',
+          'Supports formation espagnole',
+          'Référentiels mobilité européenne',
+        ],
+        modalites: [
+          'Accompagnement individuel spécialisé',
+          'Animation ateliers thématiques',
+          'Expertise conseil',
+        ],
+        partenaires: [
+          'Employeurs Gipuzkoa',
+          'Organismes formation espagnols',
+          'Structures VAE',
+        ],
+        objectifs: [
+          'Accompagner 25 parcours transfrontaliers',
+          'Développer 10 partenaires employeurs',
+          'Animer 12 ateliers spécialisés',
+        ],
+      },
+    },
+    {
+      id: 'zigor',
+      name: 'Zigor',
+      role: 'Coordinateur Transfrontalier',
+      team: 'Référents',
+      cej: false, // Étiquette CEJ retirée
+      tier: 'SUD PB', // Mis à jour
+      focus: 'Territorial, International & Référent Leader Transfrontalier, Baserriberri, Lanean', // Focus mis à jour
+      details: {
+        etp: '40%',
+        projets: 'BASERRIBERRI (coordination), LANEAN (appui technique)',
+        missionsPrincipales: [
+          'Pilotage projets transfrontaliers',
+          'Coordination avec partenaires espagnols',
+          'Expertise technique chantiers',
+        ],
+        missionsSecondaires: [
+          'Documentation techniques réplicables',
+          'Formation équipes transfrontalières',
+          'Suivi administratif projets',
+        ],
+        activitesConcretes: [
+          'BASERRIBERRI : Comité pilotage, suivi technique chantier',
+          'LANEAN : Groupes travail outils transfrontaliers',
+          'Transversal : Interlocuteur artisans Hegoalde, capitalisation',
+        ],
+        outils: [
+          'Outils gestion projet transfrontalier',
+          'Référentiels techniques métiers',
+          'Supports bilingues',
+        ],
+        modalites: [
+          'Coordination projet bilingue',
+          'Suivi technique terrain',
+          'Animation partenariats',
+        ],
+        partenaires: [
+          'Partenaires espagnols Hegoalde',
+          'Artisans locaux',
+          'Institutions transfrontalières',
+        ],
+        objectifs: [
+          'Finaliser chantier BASERRIBERRI',
+          'Former 20 jeunes aux métiers du bâtiment',
+          'Développer 3 nouveaux partenariats espagnols',
+        ],
+      },
+    },
+    {
+      id: 'lucile',
+      name: 'Lucile',
+      role: 'Communication & Projets Transfrontaliers',
+      team: 'Référents',
+      cej: false, // Étiquette CEJ retirée
+      tier: 'SUD PB', // Mis à jour
+      focus: 'Communication & Digital (Tous Projets), COM', // Focus mis à jour
+      details: {
+        etp: '100%',
+        projets: 'LANEAN (communication), BASERRIBERRI (valorisation)',
+        missionsPrincipales: [
+          'Valorisation actions du pôle',
+          'Communication projets transfrontaliers',
+          'Création contenus multimédias',
+        ],
+        missionsSecondaires: [
+          'Animation réseaux sociaux',
+          'Coordination avec SC2',
+          'Relations presse',
+        ],
+        activitesConcretes: [
+          'LANEAN : Communication spécifique projet',
+          'BASERRIBERRI : Valorisation chantier, témoignages',
+          'Transversal : Articles, interviews, supports visuels',
+        ],
+        outils: [
+          'Outils création graphique',
+          'Plateforme réseaux sociaux',
+          'Charte graphique projets',
+        ],
+        modalites: [
+          'Création contenus à distance',
+          'Reportages terrain',
+          'Animation communautés digitales',
+        ],
+        partenaires: [
+          'Médias locaux',
+          'Partenaires communication',
+          'Structures jeunesse',
+        ],
+        objectifs: [
+          'Produire 50 contenus valorisation',
+          'Augmenter 30% visibilité réseaux sociaux',
+          'Couvrir 100% événements projets',
+        ],
+      },
+    },
+    {
+      id: 'pauline',
+      name: 'Pauline',
+      role: 'Référente BAB Nord',
+      team: 'Référents',
+      cej: false, // Étiquette CEJ retirée
+      tier: 'BAB Nord/Sud',
+      focus: 'Projets Européens, Outillage Citoyenneté & Mobilités, LS4YOU', // Focus mis à jour
+      details: {
+        etp: '10%',
+        projets: 'LS4YOU (déploiement), TAKE OFF PRO (animation), ROAMING (tests)',
+        missionsPrincipales: [
+          'Déploiement compétences de vie BAB',
+          'Animation projets européens',
+          'Dynamiques engagement local',
+        ],
+        missionsSecondaires: [
+          'Tests outils innovants',
+          'Accompagnement collectifs',
+          'Veille bonnes pratiques',
+        ],
+        activitesConcretes: [
+          'LS4YOU : Animation ateliers, formation formateurs',
+          'TAKE OFF PRO : Information collective, accompagnement',
+          'ROAMING : Focus groupes, tests utilisateurs',
+        ],
+        outils: [
+          'Boîte à outils LS4YOU',
+          'Supports mobilité internationale',
+          'Outils tests ROAMING',
+        ],
+        modalites: [
+          'Animation territoriale BAB',
+          'Accompagnement collectif',
+          'Participation tests innovation',
+        ],
+        partenaires: [
+          'Équipes BAB',
+          'Structures jeunesse BAB',
+          'Partenaires européens',
+        ],
+        objectifs: [
+          'Déployer LS4YOU (100 jeunes chacune)',
+          'Accompagner 20 mobilités européennes',
+          'Tester 5 outils innovants',
+        ],
+      },
+    },
+    {
+      id: 'maiwenn',
+      name: 'Maïwenn',
+      role: 'Référente BAB Sud',
+      team: 'Référents',
+      cej: false, // Étiquette CEJ retirée
+      tier: 'BAB Nord/Sud',
+      focus: 'Outillage Citoyennetés & Mobilités, LS4YOU', // Focus mis à jour
+      details: {
+        etp: '100%',
+        projets: 'LS4YOU (déploiement), ROAMING (tests), projets européens (appui)',
+        missionsPrincipales: [
+          'Déploiement LS4YOU territoire BAB',
+          'Animation plateforme numérique',
+          'Appui événementiel européen',
+        ],
+        missionsSecondaires: [
+          'Création supports pédagogiques',
+          'Formation animateurs',
+          'Suivi fiches et modules',
+        ],
+        activitesConcretes: [
+          'LS4YOU : Adaptation ateliers, formation formateurs',
+          'ROAMING : Tests outils, focus groupes',
+          'Européens : Logistique événements, accueil partenaires',
+        ],
+        outils: [
+          'Plateforme LS4YOU',
+          'Outils numériques ROAMING',
+          'Référentiels européens',
+        ],
+        modalites: [
+          'Animation territoriale BAB',
+          'Formation présentiel/distanciel',
+          'Coordination événementielle',
+        ],
+        partenaires: [
+          'Équipes BAB',
+          'Partenaires européens',
+          'Structures formation',
+        ],
+        objectifs: [
+          'Déployer LS4YOU sur BAB (200 jeunes)',
+          'Tester 100% outils ROAMING',
+          'Organiser 4 événements européens',
+        ],
+      },
+    },
+    {
+      id: 'melissa',
+      name: 'Mélissa',
+      role: 'Référente BAB Sud',
+      team: 'Référents',
+      cej: false, // Étiquette CEJ retirée
+      tier: 'BAB Nord/Sud',
+      focus: 'Mobilité Territoriale & Internationale, Take Off Pro, Je me déplace', // Focus mis à jour
+      details: {
+        etp: '10%',
+        projets: 'LS4YOU (déploiement), TAKE OFF PRO (animation), ROAMING (tests)',
+        missionsPrincipales: [
+          'Déploiement compétences de vie BAB',
+          'Animation projets européens',
+          'Dynamiques engagement local',
+        ],
+        missionsSecondaires: [
+          'Tests outils innovants',
+          'Accompagnement collectifs',
+          'Veille bonnes pratiques',
+        ],
+        activitesConcretes: [
+          'LS4YOU : Animation ateliers, formation formateurs',
+          'TAKE OFF PRO : Information collective, accompagnement',
+          'ROAMING : Focus groupes, tests utilisateurs',
+        ],
+        outils: [
+          'Boîte à outils LS4YOU',
+          'Supports mobilité internationale',
+          'Outils tests ROAMING',
+        ],
+        modalites: [
+          'Animation territoriale BAB',
+          'Accompagnement collectif',
+          'Participation tests innovation',
+        ],
+        partenaires: [
+          'Équipes BAB',
+          'Structures jeunesse BAB',
+          'Partenaires européens',
+        ],
+        objectifs: [
+          'Déployer LS4YOU (100 jeunes chacune)',
+          'Accompagner 20 mobilités européennes',
+          'Tester 5 outils innovants',
+        ],
+      },
+    },
+  ],
+  projects: [
+    {
+      id: 'roaming',
+      name: 'ROAMING',
+      details: {
+        description: 'Professionnalisation des conseillers mobilités',
+        actions: [
+          'Développement d\'outils VR et badges de compétences',
+          'Création de plateforme nationale de formation',
+          'Formation des équipes aux nouveaux outils',
+        ],
+      },
+    },
+    {
+      id: 'baserriberri',
+      name: 'BASERRIBERRI',
+      details: {
+        description: 'Chantier formation transfrontalier',
+        actions: [
+          'Coopération avec les partenaires espagnols',
+          'Formation aux métiers du bâtiment',
+          'Expérience immersive transfrontalière',
+        ],
+      },
+    },
+    {
+      id: 'lanean',
+      name: 'LANEAN',
+      details: {
+        description: 'Accompagnement transfrontalier vers l\'emploi',
+        actions: [
+          'Matching emploi/formation en Espagne',
+          'Développement réseau employeurs Gipuzkoa',
+          'Accompagnement VAE transfrontalière',
+        ],
+      },
+    },
+    {
+      id: 'ls4you',
+      name: 'LS4YOU',
+      details: {
+        description: 'Appropriation des compétences de vie (Life Skills)',
+        actions: [
+          'Développement compétences psychosociales',
+          'Modules e-learning adaptatifs',
+          'Formation de formateurs',
+        ],
+      },
+    },
+    {
+      id: 'takeOffPro',
+      name: 'TAKE OFF PRO',
+      details: {
+        description: 'Engagement citoyen, accompagnement individualisé',
+        actions: [
+          'Mobilité internationale (60 parcours/an)',
+          'Préparation interculturelle',
+          'Valorisation Youthpass',
+        ],
+      },
+    },
+  ],
+  externalConnections: [
+    {
+      id: 'equipeCej',
+      name: 'Équipe dédiée CEJ',
+      description: 'Cette équipe est en lien avec le service pour le déploiement d\'activités jeunes et des projets du pôle (visites Baserriberri, ateliers Life Skills, promotion mobilités Take Off, ateliers PIX, je me déplace...).',
+      linkedPersonnelIds: ['alain', 'mam', 'cathy', 'julie', 'pauline', 'melissa', 'maiwenn', 'bea', 'isa'],
+    },
+    {
+      id: 'conseillersGeneralistes',
+      name: 'Équipe de Conseillers Généralistes',
+      description: 'En lien d\'un point de vue outillage de l\'accompagnement (échange de pratiques, guide Life Skills, formation mobilités, éco-responsabilité, transition sociale...).',
+    },
+    {
+      id: 'servicesEmploiFormation',
+      name: 'Services Emploi & Formation',
+      description: 'En lien sur tout ce qui va concerner l\'acquisition de soft skills et life skills par la mobilité internationale et l\'engagement citoyen.',
+    },
+    {
+      id: 'unmlArml',
+      name: 'UNML & ARML',
+      description: 'Partenaires clés pour l\'outillage digital et la mobilité internationale.',
+    },
+  ],
+};
+
+// Map des couleurs pour les tiers
+const tierColors = {
+  'SUD PB': 'bg-red-100 border-red-300', // Mis à jour
+  'BAB Nord/Sud': 'bg-green-100 border-green-300',
+};
+
+// Composant pour une carte de personne
+const PersonCard = ({ person, onClick, isSelected }) => (
+  <div
+    className={`bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer flex flex-col items-center text-center relative border
+      ${isSelected ? 'ring-4 ring-blue-500' : ''}
+      ${person.tier ? tierColors[person.tier] : 'border-gray-200'}
+    `}
+    onClick={() => onClick(person.id, 'person')}
+  >
+    <div className="text-xl font-semibold text-gray-800">
+      {person.name}
+    </div>
+    <div className="text-sm text-gray-600">{person.role}</div>
+    {person.focus && <div className="text-xs text-gray-500 mt-1 italic">({person.focus})</div>} {/* Moved focus here */}
+    <div className="text-xs text-gray-500 mt-1">{person.team}</div>
+  </div>
+);
+
+// Composant pour une carte de projet
+const ProjectCard = ({ project, onClick, isSelected }) => (
+  <div
+    className={`bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer flex flex-col items-center text-center border border-gray-200
+      ${isSelected ? 'ring-4 ring-blue-500' : ''}
+    `}
+    onClick={() => onClick(project.id, 'project')}
+  >
+    <div className="text-xl font-semibold text-gray-800">{project.name}</div>
+    <div className="text-sm text-gray-600 mt-1">{project.details.description}</div>
+  </div>
+);
+
+// Composant pour une carte de connexion externe
+const ExternalConnectionCard = ({ connection, onClick, isSelected }) => (
+  <div
+    className={`bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer flex flex-col items-center text-center border border-gray-200
+      ${isSelected ? 'ring-4 ring-blue-500' : ''}
+    `}
+    onClick={() => onClick(connection.id, 'external')}
+  >
+    <div className="text-xl font-semibold text-gray-800">{connection.name}</div>
+    <div className="text-sm text-gray-600 mt-1">{connection.description}</div>
+  </div>
+);
+
+// Composant pour le panneau de détails
+const DetailPanel = ({ selectedId, selectedType, onClose, data }) => {
+  let item = null;
+  if (selectedType === 'person') {
+    item = data.personnel.find((p) => p.id === selectedId);
+  } else if (selectedType === 'project') {
+    item = data.projects.find((p) => p.id === selectedId);
+  } else if (selectedType === 'external') {
+    item = data.externalConnections.find((c) => c.id === selectedId);
+  }
+
+  if (!item) return null;
+
+  return (
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto relative">
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors duration-200"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+
+        {selectedType === 'person' && (
+          <>
+            <h2 className="text-3xl font-bold text-blue-700 mb-2">{item.name}</h2>
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">{item.role}</h3>
+            {item.focus && <p className="text-md text-gray-600 mb-4 italic">Focus: {item.focus}</p>}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-800">
+              {item.details.etp && (
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">ETP :</h4>
+                  <p>{item.details.etp}</p>
+                </div>
+              )}
+              {item.details.projets && (
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">Projets associés :</h4>
+                  <p>{item.details.projets}</p>
+                </div>
+              )}
+              {item.details.missionsPrincipales && (
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">Missions principales :</h4>
+                  <ul className="list-disc list-inside">
+                    {item.details.missionsPrincipales.map((m, i) => (
+                      <li key={i}>{m}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {item.details.missionsSecondaires && (
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">Missions secondaires :</h4>
+                  <ul className="list-disc list-inside">
+                    {item.details.missionsSecondaires.map((m, i) => (
+                      <li key={i}>{m}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {item.details.activitesConcretes && (
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">Activités concrètes :</h4>
+                  <ul className="list-disc list-inside">
+                    {item.details.activitesConcretes.map((a, i) => (
+                      <li key={i}>{a}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {item.details.outils && (
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">Outils et référentiels :</h4>
+                  <ul className="list-disc list-inside">
+                    {item.details.outils.map((o, i) => (
+                      <li key={i}>{o}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {item.details.modalites && (
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">Modalités d'intervention :</h4>
+                  <ul className="list-disc list-inside">
+                    {item.details.modalites.map((m, i) => (
+                      <li key={i}>{m}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {item.details.partenaires && (
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">Partenaires clés :</h4>
+                  <ul className="list-disc list-inside">
+                    {item.details.partenaires.map((p, i) => (
+                      <li key={i}>{p}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {item.details.objectifs && (
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">Objectifs opérationnels 2025 :</h4>
+                  <ul className="list-disc list-inside">
+                    {item.details.objectifs.map((o, i) => (
+                      <li key={i}>{o}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {item.details.mission && ( // For Service Civique
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">Mission :</h4>
+                  <p>{item.details.mission}</p>
+                </div>
+              )}
+              {item.details.relaisSoutenus && ( // For Service Civique
+                <div>
+                  <h4 className="font-bold text-lg text-blue-600">Relais soutenus :</h4>
+                  <p>{item.details.relaisSoutenus}</p>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {selectedType === 'project' && (
+          <>
+            <h2 className="text-3xl font-bold text-blue-700 mb-2">{item.name}</h2>
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">{item.details.description}</h3>
+            {item.details.actions && (
+              <div>
+                  <h4 className="font-bold text-lg text-blue-600">Actions :</h4>
+                  <ul className="list-disc list-inside">
+                      {item.details.actions.map((a, i) => (
+                          <li key={i}>{a}</li>
+                      ))}
+                  </ul>
+              </div>
+          )}
+          </>
+        )}
+
+        {selectedType === 'external' && (
+          <>
+            <h2 className="text-3xl font-bold text-blue-700 mb-2">{item.name}</h2>
+            <p className="text-xl text-gray-700 mb-4">{item.description}</p>
+            {item.linkedPersonnelIds && item.linkedPersonnelIds.length > 0 && (
+              <div>
+                <h4 className="font-bold text-lg text-blue-600">Membres liés :</h4>
+                <ul className="list-disc list-inside">
+                  {item.linkedPersonnelIds.map((id) => {
+                    const person = data.personnel.find(p => p.id === id);
+                    return person ? <li key={id}>{person.name} ({person.role})</li> : null;
+                  })}
+                </ul>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const App = () => {
+  const [selectedId, setSelectedId] = useState(null);
+  const [selectedType, setSelectedType] = useState(null); // 'person', 'project', or 'external'
+
+  const handleCardClick = (id, type) => {
+    setSelectedId(id);
+    setSelectedType(type);
+  };
+
+  const handleCloseDetail = () => {
+    setSelectedId(null);
+    setSelectedType(null);
+  };
+
+  const groupedPersonnel = poleData.personnel.reduce((acc, person) => {
+    if (!acc[person.team]) {
+      acc[person.team] = [];
+    }
+    acc[person.team].push(person);
+    return acc;
+  }, {});
+
+  // Group referents by tier
+  const groupedReferentsByTier = poleData.personnel
+    .filter(p => p.team === 'Référents' && p.tier) // Filter only those in 'Référents' team and have a tier
+    .reduce((acc, person) => {
+      const tier = person.tier;
+      if (!acc[tier]) {
+        acc[tier] = [];
+      }
+      acc[tier].push(person);
+      return acc;
+    }, {});
+
+  const teamOrder = [
+    'Pilotage & Coordination',
+    'Équipe Projet',
+    'Spécialistes Mobilité',
+    'Volontaires Service Civique',
+  ];
+
+  const tierOrder = [
+    'SUD PB', // Mis à jour
+    'BAB Nord/Sud',
+  ];
+
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 font-sans text-gray-900 p-4 sm:p-6 md:p-8">
+      <style>
+        {`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+          font-family: 'Inter', sans-serif;
+        }
+        `}
+      </style>
+      <header className="text-center mb-8">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-blue-800 leading-tight mb-2">
+          🌟 Livret de Présentation
+        </h1>
+        <h2 className="text-2xl sm:text-3xl font-semibold text-indigo-700">
+          Pôle Mobilité, Citoyenneté, Transition & Innovation (MCCTI)
+        </h2>
+        <p className="mt-4 text-lg text-gray-700 max-w-3xl mx-auto">
+          {poleData.mission}
+        </p>
+      </header>
+
+      <main className="space-y-12">
+        {/* Section Organisation Principale */}
+        <section>
+          <h3 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+            🔍 Organisation du Pôle
+          </h3>
+          <div className="space-y-8">
+            {teamOrder.map((teamName) => (
+              groupedPersonnel[teamName] && (
+                <div key={teamName} className="bg-white rounded-xl shadow-lg p-6">
+                  <h4 className="text-2xl font-semibold text-indigo-600 mb-4 border-b-2 border-indigo-300 pb-2">
+                    {teamName}
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {groupedPersonnel[teamName].map((person) => (
+                      <PersonCard
+                        key={person.id}
+                        person={person}
+                        onClick={handleCardClick}
+                        isSelected={selectedId === person.id && selectedType === 'person'}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )
+            ))}
+          </div>
+        </section>
+
+        {/* Section Référents par Échelon */}
+        <section>
+          <h3 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+            Niveaux d'Intervention : Référents par Échelon
+          </h3>
+          <div className="space-y-8">
+            {tierOrder.map((tierName) => (
+              groupedReferentsByTier[tierName] && (
+                <div key={tierName} className={`rounded-xl shadow-lg p-6 ${tierColors[tierName] || 'bg-white border-gray-200'}`}>
+                  <h4 className="text-2xl font-semibold text-gray-800 mb-4 border-b-2 border-gray-400 pb-2">
+                    Échelon : {tierName}
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {groupedReferentsByTier[tierName].map((person) => (
+                      <PersonCard
+                        key={person.id}
+                        person={person}
+                        onClick={handleCardClick}
+                        isSelected={selectedId === person.id && selectedType === 'person'}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )
+            ))}
+          </div>
+        </section>
+
+        {/* Section Projets Structurants */}
+        <section>
+          <h3 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+            📌 Projets Structurants
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {poleData.projects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onClick={handleCardClick}
+                isSelected={selectedId === project.id && selectedType === 'project'}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Section Partenaires Clés & Circuits d'Échange */}
+        <section>
+          <h3 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+            Circuits d'Échange & Partenaires Clés
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {poleData.externalConnections.map((connection) => (
+              <ExternalConnectionCard
+                key={connection.id}
+                connection={connection}
+                onClick={handleCardClick}
+                isSelected={selectedId === connection.id && selectedType === 'external'}
+              />
+            ))}
+          </div>
+        </section>
+      </main>
+
+      {selectedId && (
+        <DetailPanel
+          selectedId={selectedId}
+          selectedType={selectedType}
+          onClose={handleCloseDetail}
+          data={poleData}
+        />
+      )}
+    </div>
+  );
+};
+
+export default App;
