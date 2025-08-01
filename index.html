@@ -594,7 +594,7 @@
                             'Référentiels mobilité européenne',
                         ],
                         modalites: [
-                            'Accompagnement individuel spécialisé',
+                            'Animation individuel spécialisé',
                             'Animation ateliers thématiques',
                             'Expertise conseil',
                         ],
@@ -770,7 +770,7 @@
                             'Animation plateforme numérique',
                             'Appui événementiel européen',
                         ],
-                        missionsSecondaires: [
+                        missionsSecondary: [
                             'Création supports pédagogiques',
                             'Formation animateurs',
                             'Suivi fiches et modules',
@@ -818,7 +818,7 @@
                             'Animation projets européens',
                             'Dynamiques engagement local',
                         ],
-                        missionsSecondaires: [
+                        missionsSecondary: [
                             'Tests outils innovants',
                             'Accompagnement collectifs',
                             'Veille bonnes pratiques',
@@ -1453,6 +1453,20 @@
                 </div>
             );
         };
+
+        // Utilisation de ReactDOM.createRoot pour React 18+, ou ReactDOM.render pour les versions plus anciennes
+        // window.ReactDOM est défini par le CDN react-dom.production.min.js
+        document.addEventListener('DOMContentLoaded', function() {
+            if (ReactDOM.createRoot) {
+                const root = ReactDOM.createRoot(document.getElementById('root'));
+                root.render(<App />);
+            } else {
+                ReactDOM.render(<App />, document.getElementById('root'));
+            }
+        });
+    </script>
+</body>
+</html>
 
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
